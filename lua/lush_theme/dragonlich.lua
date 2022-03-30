@@ -45,6 +45,52 @@
 local lush = require('lush')
 local hsl = lush.hsl
 
+local colors = {
+    dark0_hard = hsl("#0c0a0d"),
+    dark0 = hsl("#2C2431"),
+    dark0_soft = hsl("#3C3143"),
+    dark1 = hsl("#44374C"),
+    dark2 = hsl("#483A51"),
+    dark3 = hsl("#483A51"),
+    dark4 = hsl("#4B3D55"),
+
+    light0_hard = hsl("#f5efed"),
+    light0 = hsl("#e0d9da"),
+    light0_soft = hsl("#cbc3c7"),
+    light1 = hsl("#a096a1"),
+    light2 = hsl("#766a7b"),
+    light3 = hsl("#615468"),
+    light4 = hsl("#4b3d55"),
+
+    bright_red = hsl("#d95255"),
+    bright_green = hsl("#a4c76e"),
+    bright_yellow = hsl("#e4c385"),
+    bright_blue = hsl("#6f72a7"),
+    bright_purple = hsl("#684d79"),
+    bright_aqua = hsl("#B8D4E3"),
+    bright_orange = hsl("#dc7b65"),
+
+    neutral_red = hsl("#cf3b3d"),
+    neutral_green = hsl("#5FBB97"),
+    neutral_yellow = hsl("#DDB874"),
+    neutral_blue = hsl("#63658E"),
+    neutral_purple = hsl("#4B3D55"),
+    neutral_aqua = hsl("#98B9AB"),
+    neutral_orange = hsl("#d46851"),
+
+    error = hsl("#a4282a"),
+
+    faded_red = hsl("#a76263"),
+    faded_green = hsl("#8f9f74"),
+    faded_yellow = hsl("#c1b090"),
+    faded_blue = hsl("#6e6f82"),
+    faded_purple = hsl("#4b454f"),
+    faded_aqua = hsl("#83a09d"),
+    faded_orange = hsl("#b07e73"),
+
+    gray = hsl("#817D7D"),
+}
+
 -- LSP/Linters mistakenly show `undefined global` errors in the spec, they may
 -- support an annotation like the following. Consult your server documentation.
 ---@diagnostic disable: undefined-global
@@ -62,14 +108,21 @@ local theme = lush(function()
     -- styling for that group (meaning they mostly get styled as Normal)
     -- or leave them commented to apply vims default colouring or linking.
 
-    -- Comment      { }, -- any comment
+    Comment      {
+        fg = colors.dark0_soft
+    }, -- any comment
     -- ColorColumn  { }, -- used for the columns set with 'colorcolumn'
-    -- Conceal      { }, -- placeholder characters substituted for concealed text (see 'conceallevel')
+    Conceal      {
+        fg = colors.dark4
+    }, -- placeholder characters substituted for concealed text (see 'conceallevel')
     -- Cursor       { }, -- character under the cursor
     -- lCursor      { }, -- the character under the cursor when |language-mapping| is used (see 'guicursor')
     -- CursorIM     { }, -- like Cursor, but used when in IME mode |CursorIM|
     -- CursorColumn { }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
-    -- CursorLine   { }, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
+    CursorLine   {
+        bg = colors.dark4,
+        -- fg = colors.light0_hard
+    }, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
     -- Directory    { }, -- directory names (and other special names in listings)
     -- DiffAdd      { }, -- diff mode: Added line |diff.txt|
     -- DiffChange   { }, -- diff mode: Changed line |diff.txt|
@@ -80,29 +133,52 @@ local theme = lush(function()
     -- TermCursorNC { }, -- cursor in an unfocused terminal
     -- ErrorMsg     { }, -- error messages on the command line
     -- VertSplit    { }, -- the column separating vertically split windows
-    -- Folded       { }, -- line used for closed folds
-    -- FoldColumn   { }, -- 'foldcolumn'
-    -- SignColumn   { }, -- column where |signs| are displayed
+    Folded       { }, -- line used for closed folds
+    FoldColumn   { }, -- 'foldcolumn'
+    SignColumn   { }, -- column where |signs| are displayed
     -- IncSearch    { }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
     -- Substitute   { }, -- |:substitute| replacement text highlighting
-    -- LineNr       { }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
-    -- CursorLineNr { }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
-    -- MatchParen   { }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+    LineNr       {
+        fg = colors.dark3
+    }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
+    CursorLineNr {
+        bg = colors.dark4,
+        fg = colors.neutral_red,
+        gui = 'bold'
+    }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
+    MatchParen   {
+        gui = "bold"
+    }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
     -- ModeMsg      { }, -- 'showmode' message (e.g., "-- INSERT -- ")
     -- MsgArea      { }, -- Area for messages and cmdline
     -- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
-    -- MoreMsg      { }, -- |more-prompt|
-    -- NonText      { }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
-    -- Normal       { }, -- normal text
-    -- NormalFloat  { }, -- Normal text in floating windows.
-    -- NormalNC     { }, -- normal text in non-current windows
-    -- Pmenu        { }, -- Popup menu: normal item.
+    MoreMsg      { }, -- |more-prompt|
+    NonText      {
+        fg = colors.dark0_hard
+    }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
+    Normal       {
+        bg = colors.dark0_hard,
+        fg = colors.neutral_aqua,
+    },
+    NormalFloat  {
+        bg = colors.dark0_hard
+    }, -- Normal text in floating windows.
+    NormalNC     {
+        bg = colors.dark0_hard
+    }, -- normal text in non-current windows
+    Pmenu        {
+        bg = colors.dark0_hard
+    }, -- Popup menu: normal item.
     -- PmenuSel     { }, -- Popup menu: selected item.
     -- PmenuSbar    { }, -- Popup menu: scrollbar.
-    -- PmenuThumb   { }, -- Popup menu: Thumb of the scrollbar.
+    PmenuThumb   {
+        bg = colors.neutral_red
+    }, -- Popup menu: Thumb of the scrollbar.
     -- Question     { }, -- |hit-enter| prompt and yes/no questions
     -- QuickFixLine { }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
-    -- Search       { }, -- Last search pattern highlighting (see 'hlsearch').  Also used for similar items that need to stand out.
+    Search       {
+        bg = colors.neutral_red,
+    }, -- Last search pattern highlighting (see 'hlsearch').  Also used for similar items that need to stand out.
     -- SpecialKey   { }, -- Unprintable characters: text displayed differently from what it really is.  But not 'listchars' whitespace. |hl-Whitespace|
     -- SpellBad     { }, -- Word that is not recognized by the spellchecker. |spell| Combined with the highlighting used otherwise. 
     -- SpellCap     { }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
@@ -114,7 +190,10 @@ local theme = lush(function()
     -- TabLineFill  { }, -- tab pages line, where there are no labels
     -- TabLineSel   { }, -- tab pages line, active tab page label
     -- Title        { }, -- titles for output from ":set all", ":autocmd" etc.
-    -- Visual       { }, -- Visual mode selection
+    Visual       {
+        bg = colors.bright_yellow,
+        fg = colors.dark0_hard
+    }, -- Visual mode selection
     -- VisualNOS    { }, -- Visual mode selection when vim is "Not Owning the Selection".
     -- WarningMsg   { }, -- warning messages
     -- Whitespace   { }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
@@ -127,21 +206,32 @@ local theme = lush(function()
     -- Uncomment and edit if you want more specific syntax highlighting.
 
     -- Constant       { }, -- (preferred) any constant
-    -- String         { }, --   a string constant: "this is a string"
+    String         {
+        fg = colors.neutral_green
+    }, --   a string constant: "this is a string"
     -- Character      { }, --  a character constant: 'c', '\n'
     -- Number         { }, --   a number constant: 234, 0xff
     -- Boolean        { }, --  a boolean constant: TRUE, false
     -- Float          { }, --    a floating point constant: 2.3e10
 
-    -- Identifier     { }, -- (preferred) any variable name
-    -- Function       { }, -- function name (also: methods for classes)
+    Identifier     {
+        fg = colors.bright_blue
+    }, -- (preferred) any variable name
+    Function       {
+        fg = colors.neutral_yellow
+    }, -- function name (also: methods for classes)
 
-    -- Statement      { }, -- (preferred) any statement
+    Statement      { }, -- (preferred) any statement
     -- Conditional    { }, --  if, then, else, endif, switch, etc.
     -- Repeat         { }, --   for, do, while, etc.
     -- Label          { }, --    case, default, etc.
-    -- Operator       { }, -- "sizeof", "+", "*", etc.
-    -- Keyword        { }, --  any other keyword
+    Operator       {
+        fg = colors.neutral_yellow
+    }, -- "sizeof", "+", "*", etc.
+    Keyword        {
+        fg = colors.bright_purple,
+        gui = "bold"
+    }, --  any other keyword
     -- Exception      { }, --  try, catch, throw
 
     -- PreProc        { }, -- (preferred) generic Preprocessor
@@ -155,7 +245,9 @@ local theme = lush(function()
     -- Structure      { }, --  struct, union, enum, etc.
     -- Typedef        { }, --  A typedef
 
-    -- Special        { }, -- (preferred) any special symbol
+    Special        {
+        fg = colors.neutral_red
+    }, -- (preferred) any special symbol
     -- SpecialChar    { }, --  special character in a constant
     -- Tag            { }, --    you can use CTRL-] on this
     -- Delimiter      { }, --  character that needs attention
@@ -225,7 +317,7 @@ local theme = lush(function()
     -- TSField              { } , -- Object and struct fields.
     -- TSFloat              { } , -- Floating-point number literals.
     -- TSFunction           { } , -- Function calls and definitions.
-    -- TSFuncBuiltin        { } , -- Built-in functions: `print` in Lua.
+    TSFuncBuiltin        { gui = "bold"} , -- Built-in functions: `print` in Lua.
     -- TSFuncMacro          { } , -- Macro defined functions (calls and definitions): each `macro_rules` in Rust.
     -- TSInclude            { } , -- File or module inclusion keywords: `#include` in C, `use` or `extern crate` in Rust.
     -- TSKeyword            { } , -- Keywords that don't fit into other categories.
